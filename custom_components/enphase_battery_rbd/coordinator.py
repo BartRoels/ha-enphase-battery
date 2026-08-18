@@ -40,7 +40,11 @@ class EnphaseBatteryCoordinator(DataUpdateCoordinator[dict]):
                 "user_id": self.session.user_id,
             }
         except EnlightenAuthError as err:
-            raise UpdateFailed(f"Enlighten authentication failed: {err}") from err
+            # Trigger the re-auth flow so HA notifies the user
+            self.config_entry.async_start_reauth(self.hass)
+            raise UpdateFailed(
+                f"Enlighten authentication failed — re-enter your credentials: {err}"
+            ) from err
         except EnlightenApiError as err:
             raise UpdateFailed(f"Enlighten API error: {err}") from err
         except Exception as err:

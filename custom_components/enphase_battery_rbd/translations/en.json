@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Enphase Enlighten Login",
-        "description": "Enter your Enphase Enlighten account credentials. These are stored securely in Home Assistant and used to authenticate with the Enlighten cloud API.",
+        "description": "Enter your Enphase Enlighten account credentials. These are stored securely in Home Assistant.",
         "data": {
           "email": "Enlighten Email",
           "password": "Enlighten Password"
@@ -16,6 +16,32 @@
     },
     "abort": {
       "already_configured": "This Enphase site is already configured."
+    }
+  },
+  "options": {},
+  "exceptions": {},
+  "issues": {},
+  "selector": {},
+  "entity": {},
+  "services": {},
+  "title": "Enphase Battery RBD",
+  "reauth": {
+    "step": {
+      "reauth_confirm": {
+        "title": "Re-authenticate with Enphase Enlighten",
+        "description": "Your Enlighten session has expired or your password has changed. Please re-enter your credentials.",
+        "data": {
+          "email": "Enlighten Email",
+          "password": "Enlighten Password"
+        }
+      }
+    },
+    "abort": {
+      "reauth_successful": "Re-authentication was successful."
+    },
+    "error": {
+      "invalid_auth": "Invalid email or password.",
+      "cannot_connect": "Could not connect to Enlighten."
     }
   }
 }
