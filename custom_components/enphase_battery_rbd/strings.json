@@ -1,0 +1,21 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Enphase Enlighten Login",
+        "description": "Enter your Enphase Enlighten account credentials. These are stored securely in Home Assistant and used to authenticate with the Enlighten cloud API.",
+        "data": {
+          "email": "Enlighten Email",
+          "password": "Enlighten Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid email or password. Please check your Enlighten credentials.",
+      "cannot_connect": "Could not connect to Enlighten. Check your internet connection."
+    },
+    "abort": {
+      "already_configured": "This Enphase site is already configured."
+    }
+  }
+}
