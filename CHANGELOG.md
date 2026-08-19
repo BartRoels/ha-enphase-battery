@@ -46,3 +46,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Remove invalid `quality_scale: "custom"` from manifest.json (caused hassfest validation failure)
 - Remove orphaned entity strings from strings.json (entity names are set via `_attr_name` directly)
 - Release workflow: set `make_latest: true` to handle pre-existing release tags gracefully
+
+## [0.2.2] - 2026-08-19
+
+### Fixed
+- manifest.json: keys now sorted correctly (domain, name, then alphabetical) as required by hassfest
+- strings.json: `reauth` section moved inside `config` (top-level `reauth` key not valid in hassfest)
+- Added MIT LICENSE file (required by HACS validation)
+- Added brand icon at `custom_components/enphase_battery_rbd/brand/icon.png` (HACS-expected path)

@@ -1,13 +1,13 @@
 {
   "domain": "enphase_battery_rbd",
   "name": "Enphase Battery RBD",
-  "version": "0.2.1",
-  "documentation": "https://github.com/BartRoels/ha-enphase-battery",
-  "issue_tracker": "https://github.com/BartRoels/ha-enphase-battery/issues",
-  "dependencies": [],
   "codeowners": ["@BartRoels"],
-  "requirements": [],
-  "iot_class": "cloud_polling",
   "config_flow": true,
-  "integration_type": "device"
+  "dependencies": [],
+  "documentation": "https://github.com/BartRoels/ha-enphase-battery",
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/BartRoels/ha-enphase-battery/issues",
+  "requirements": [],
+  "version": "0.2.2"
 }

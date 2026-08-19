@@ -1,45 +1,34 @@
 {
   "config": {
-    "step": {
-      "user": {
-        "title": "Enphase Enlighten Login",
-        "description": "Enter your Enphase Enlighten account credentials. These are stored securely in Home Assistant.",
-        "data": {
-          "email": "Enlighten Email",
-          "password": "Enlighten Password",
-          "create_schedule": "Create default 24h RBD schedule automatically"
-        },
-        "data_description": {
-          "create_schedule": "Creates a 00:00–23:59 all-days Restrict Battery Discharge schedule. Required for the switch to have any effect. You can recreate it later using the button entity."
-        }
-      }
-    },
-    "error": {
-      "invalid_auth": "Invalid email or password. Please check your Enlighten credentials.",
-      "cannot_connect": "Could not connect to Enlighten. Check your internet connection."
-    },
     "abort": {
-      "already_configured": "This Enphase site is already configured."
-    }
-  },
-  "reauth": {
-    "step": {
-      "reauth_confirm": {
-        "title": "Re-authenticate with Enphase Enlighten",
-        "description": "Your Enlighten session has expired or your password has changed. Please re-enter your credentials.",
-        "data": {
-          "email": "Enlighten Email",
-          "password": "Enlighten Password"
-        }
-      }
-    },
-    "abort": {
+      "already_configured": "This Enphase site is already configured.",
       "reauth_successful": "Re-authentication was successful."
     },
     "error": {
-      "invalid_auth": "Invalid email or password.",
-      "cannot_connect": "Could not connect to Enlighten."
+      "cannot_connect": "Could not connect to Enlighten. Check your internet connection.",
+      "invalid_auth": "Invalid email or password. Please check your Enlighten credentials."
+    },
+    "step": {
+      "reauth_confirm": {
+        "data": {
+          "email": "Enlighten Email",
+          "password": "Enlighten Password"
+        },
+        "description": "Your Enlighten session has expired or your password has changed. Please re-enter your credentials.",
+        "title": "Re-authenticate with Enphase Enlighten"
+      },
+      "user": {
+        "data": {
+          "create_schedule": "Create default 24h RBD schedule automatically",
+          "email": "Enlighten Email",
+          "password": "Enlighten Password"
+        },
+        "data_description": {
+          "create_schedule": "Creates a 00:00-23:59 all-days Restrict Battery Discharge schedule. Required for the switch to have any effect. You can recreate it later using the button entity."
+        },
+        "description": "Enter your Enphase Enlighten account credentials. These are stored securely in Home Assistant.",
+        "title": "Enphase Enlighten Login"
+      }
     }
   }
 }
-
