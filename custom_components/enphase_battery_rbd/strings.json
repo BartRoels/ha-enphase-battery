@@ -40,22 +40,6 @@
       "invalid_auth": "Invalid email or password.",
       "cannot_connect": "Could not connect to Enlighten."
     }
-  },
-  "entity": {
-    "button": {
-      "recreate_rbd_schedule": {
-        "name": "Recreate RBD Schedule"
-      }
-    },
-    "switch": {
-      "restrict_battery_discharge": {
-        "name": "Restrict Battery Discharge"
-      }
-    },
-    "sensor": {
-      "enlighten_session_status": {
-        "name": "Enlighten Session Status"
-      }
-    }
   }
 }
+

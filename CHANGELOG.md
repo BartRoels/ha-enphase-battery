@@ -39,3 +39,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Schedule creation failure during setup is non-fatal — the integration still sets up successfully and the button can be used to retry.
 - `create_default_schedule()` now deletes any conflicting existing schedules before creating a fresh one (avoids 409 conflict errors).
 - Timezone is read from HA config and passed to Enphase when creating schedules.
+
+## [0.2.1] - 2026-08-19
+
+### Fixed
+- Remove invalid `quality_scale: "custom"` from manifest.json (caused hassfest validation failure)
+- Remove orphaned entity strings from strings.json (entity names are set via `_attr_name` directly)
+- Release workflow: set `make_latest: true` to handle pre-existing release tags gracefully
