@@ -16,3 +16,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Technical
 - Full Enlighten session authentication (cookie jar + XSRF token) — the only approach confirmed to work for the `batterySettings` PUT endpoint without installer-level API access
 - `batterySettings PUT /rbdControl` used directly, bypassing the unreliable schedule pending/active flow
+
+## [0.1.1] - 2026-08-19
+
+### Added
+- HACS icon — battery with padlock
+- Automated GitHub Actions release workflow
+- HACS and hassfest validation actions (required for HACS default store)
+- CHANGELOG.md
+
+### Changed
+- README: clarified that a schedule must exist first (via Enphase app or chinedu40 integration) before the switch has any effect
+- README: added comparison table and schedule setup instructions
