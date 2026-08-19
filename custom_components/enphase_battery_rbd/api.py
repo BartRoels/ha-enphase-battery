@@ -297,6 +297,87 @@ class EnlightenSession:
                 f"batterySettings PUT returned HTTP {resp.status}: {text}"
             )
 
+    def _schedule_headers(self) -> dict[str, str]:
+        """Return headers required for the schedule API calls."""
+        return {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "e-auth-token": self._jwt or "",
+            "x-xsrf-token": self._xsrf or "",
+            "username": self._user_id or "",
+            "origin": BATTERY_PROFILE_ORIGIN,
+            "referer": f"{BATTERY_PROFILE_ORIGIN}/",
+            "user-agent": _BROWSER_UA,
+        }
+
+    async def _delete_all_rbd_schedules(self, session: aiohttp.ClientSession) -> None:
+        """Delete all existing RBD schedules to avoid 409 conflicts."""
+        url = f"{BATTERY_CONFIG_BASE}/battery/sites/{self._battery_id}/schedules"
+        async with session.get(url, headers=self._schedule_headers()) as resp:
+            if resp.status != 200:
+                return
+            data = await resp.json()
+
+        rbd_details = (data.get("rbd") or {}).get("details") or []
+        for sched in rbd_details:
+            schedule_id = sched.get("scheduleId")
+            if not schedule_id:
+                continue
+            delete_url = f"{url}/{schedule_id}/delete"
+            try:
+                async with session.post(
+                    delete_url,
+                    json={},
+                    headers=self._schedule_headers(),
+                ) as resp:
+                    _LOGGER.debug(
+                        "Deleted RBD schedule %s: HTTP %s", schedule_id, resp.status
+                    )
+            except Exception as exc:
+                _LOGGER.warning("Could not delete schedule %s: %s", schedule_id, exc)
+
+    async def create_default_schedule(self, timezone: str = "UTC") -> None:
+        """Create a default 00:00–23:59 all-days RBD schedule.
+
+        Deletes any existing RBD schedules first to avoid 409 conflicts.
+        This is the schedule the RBD master switch acts upon — without at
+        least one schedule the switch has no effect at the hardware level.
+        """
+        await self.ensure_authenticated()
+        session = await self._get_session()
+
+        _LOGGER.debug("Creating default RBD schedule (00:00–23:59, all days)")
+
+        # Clean up existing schedules first
+        await self._delete_all_rbd_schedules(session)
+
+        import asyncio
+        await asyncio.sleep(2)
+
+        url = f"{BATTERY_CONFIG_BASE}/battery/sites/{self._battery_id}/schedules"
+        payload = {
+            "timezone": timezone,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "limit": 100,
+            "scheduleType": "RBD",
+            "days": [1, 2, 3, 4, 5, 6, 7],
+        }
+
+        async with session.post(
+            url, json=payload, headers=self._schedule_headers()
+        ) as resp:
+            if resp.status in (200, 201):
+                data = await resp.json()
+                _LOGGER.debug(
+                    "Default RBD schedule created: %s", data.get("scheduleId")
+                )
+            else:
+                text = await resp.text()
+                raise EnlightenApiError(
+                    f"Failed to create default schedule: HTTP {resp.status} — {text}"
+                )
+
     async def get_rbd_status(self) -> bool | None:
         """Return current RBD enabled state, or None if unknown.
 

@@ -1,7 +1,7 @@
 {
   "domain": "enphase_battery_rbd",
   "name": "Enphase Battery RBD",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "quality_scale": "custom",
   "documentation": "https://github.com/BartRoels/ha-enphase-battery",
   "issue_tracker": "https://github.com/BartRoels/ha-enphase-battery/issues",

@@ -30,7 +30,7 @@ from .coordinator import EnphaseBatteryCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS = [Platform.SWITCH, Platform.SENSOR]
+PLATFORMS = [Platform.BUTTON, Platform.SWITCH, Platform.SENSOR]
 
 type EnphaseBatteryConfigEntry = ConfigEntry[EnphaseBatteryCoordinator]
 

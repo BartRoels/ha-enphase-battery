@@ -10,8 +10,15 @@ import voluptuous as vol
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.exceptions import HomeAssistantError
 
-from .api import EnlightenAuthError, EnlightenSession
-from .const import CONF_BATTERY_ID, CONF_EMAIL, CONF_PASSWORD, CONF_USER_ID, DOMAIN
+from .api import EnlightenAuthError, EnlightenApiError, EnlightenSession
+from .const import (
+    CONF_BATTERY_ID,
+    CONF_CREATE_SCHEDULE,
+    CONF_EMAIL,
+    CONF_PASSWORD,
+    CONF_USER_ID,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -19,6 +26,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_EMAIL): str,
         vol.Required(CONF_PASSWORD): str,
+        vol.Optional(CONF_CREATE_SCHEDULE, default=True): bool,
     }
 )
 
@@ -58,6 +66,31 @@ class EnphaseBatteryRBDConfigFlow(ConfigFlow, domain=DOMAIN):
             else:
                 await self.async_set_unique_id(battery_id)
                 self._abort_if_unique_id_configured()
+
+                # Create default schedule if requested
+                if user_input.get(CONF_CREATE_SCHEDULE, True):
+                    try:
+                        session = EnlightenSession(
+                            email=user_input[CONF_EMAIL],
+                            password=user_input[CONF_PASSWORD],
+                            battery_id=battery_id,
+                            user_id=user_id,
+                        )
+                        await session.create_default_schedule(
+                            timezone=self.hass.config.time_zone
+                        )
+                        await session.close()
+                        _LOGGER.info(
+                            "Default RBD schedule created during setup for site %s",
+                            battery_id,
+                        )
+                    except (EnlightenApiError, Exception) as err:
+                        # Schedule creation failure is non-fatal —
+                        # user can recreate via the button entity later
+                        _LOGGER.warning(
+                            "Could not create default schedule (non-fatal): %s", err
+                        )
+
                 return self.async_create_entry(
                     title=f"Enphase Battery (site {battery_id})",
                     data={
@@ -65,6 +98,7 @@ class EnphaseBatteryRBDConfigFlow(ConfigFlow, domain=DOMAIN):
                         CONF_PASSWORD: user_input[CONF_PASSWORD],
                         CONF_BATTERY_ID: battery_id,
                         CONF_USER_ID: user_id,
+                        CONF_CREATE_SCHEDULE: user_input.get(CONF_CREATE_SCHEDULE, True),
                     },
                 )
 

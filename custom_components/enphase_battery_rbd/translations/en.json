@@ -6,7 +6,11 @@
         "description": "Enter your Enphase Enlighten account credentials. These are stored securely in Home Assistant.",
         "data": {
           "email": "Enlighten Email",
-          "password": "Enlighten Password"
+          "password": "Enlighten Password",
+          "create_schedule": "Create default 24h RBD schedule automatically"
+        },
+        "data_description": {
+          "create_schedule": "Creates a 00:00–23:59 all-days Restrict Battery Discharge schedule. Required for the switch to have any effect. You can recreate it later using the button entity."
         }
       }
     },
@@ -18,13 +22,6 @@
       "already_configured": "This Enphase site is already configured."
     }
   },
-  "options": {},
-  "exceptions": {},
-  "issues": {},
-  "selector": {},
-  "entity": {},
-  "services": {},
-  "title": "Enphase Battery RBD",
   "reauth": {
     "step": {
       "reauth_confirm": {
@@ -42,6 +39,23 @@
     "error": {
       "invalid_auth": "Invalid email or password.",
       "cannot_connect": "Could not connect to Enlighten."
+    }
+  },
+  "entity": {
+    "button": {
+      "recreate_rbd_schedule": {
+        "name": "Recreate RBD Schedule"
+      }
+    },
+    "switch": {
+      "restrict_battery_discharge": {
+        "name": "Restrict Battery Discharge"
+      }
+    },
+    "sensor": {
+      "enlighten_session_status": {
+        "name": "Enlighten Session Status"
+      }
     }
   }
 }

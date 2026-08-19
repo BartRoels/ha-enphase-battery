@@ -7,6 +7,7 @@ CONF_EMAIL = "email"
 CONF_PASSWORD = "password"
 CONF_BATTERY_ID = "battery_id"
 CONF_USER_ID = "user_id"
+CONF_CREATE_SCHEDULE = "create_schedule"
 
 # Update interval
 UPDATE_INTERVAL_SECONDS = 900  # 15 minutes
@@ -23,3 +24,9 @@ MODEL = "IQ Battery (Cloud RBD Control)"
 # Entity names
 SWITCH_RBD_NAME = "Restrict Battery Discharge"
 SENSOR_SESSION_NAME = "Enlighten Session Status"
+BUTTON_RECREATE_NAME = "Recreate RBD Schedule"
+
+# Default schedule settings
+DEFAULT_SCHEDULE_START = "00:00"
+DEFAULT_SCHEDULE_END = "23:59"
+DEFAULT_SCHEDULE_DAYS = [1, 2, 3, 4, 5, 6, 7]  # Mon–Sun
